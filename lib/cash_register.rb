@@ -1,44 +1,26 @@
 
-
+require 'pry'
 class CashRegister
+
+
   attr_accessor :discount, :total
 
-
-  def initialize(discount = 0)
-    @total = 0
+  def initialize(discount=nil)
     @discount = discount
-    @cart = []
+    @total = 0
   end
 
-  def add_item(item, price, quantity = 1)
-    item_info = {}
-    item_info[:name] = item
-    item_info[:price] = price
-    item_info[:quantity] = quantity
-
-    @cart << item_info
-
-    @total += price * quantity
-
+  def add_item(item, price, amount=1)
+    # binding.pry
+    self.total += price * amount
   end
 
   def apply_discount
-    if @discount == 0
-      return "There is no discount to apply."
+    # binding.pry
+    if discount > 0 && total
+      self.total = (self.total * ((100.0 - discount.to_f)/100)).to_i
+    else
+      self.total
     end
-    @total -= @total * @discount / 100
-    return "After the discount, the total comes to $#{@total}."
   end
-
-  def items
-    item_names = []
-    @cart.each do | item_info |
-      #test expects product name * quantity...
-      for qty in 1..item_info[:quantity]
-        item_names << item_info[:name]
-      end
-    end
-    item_names
-  end
-
-end
+end 
